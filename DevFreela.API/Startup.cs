@@ -3,6 +3,7 @@ using DevFreela.Application.Services.Interfaces;
 using DevFreela.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,7 +25,8 @@ namespace DevFreela.API
 
             services.AddControllers();
 
-            services.AddSingleton<DevFreelaDbContext>();
+            services.AddDbContext<DevFreelaDbContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("DevFreelaCs")));
 
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<ISkillService, SkillService>();
