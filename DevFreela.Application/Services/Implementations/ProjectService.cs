@@ -17,18 +17,8 @@ namespace DevFreela.Application.Services.Implementations
         {
             _dbContext = dbContext;
         }
-        public int Create(NewProjectInputModel inputModel)
-        {
-            var project = new Project(inputModel.Title, inputModel.Description, inputModel.IdClient, inputModel.IdFreelancer, inputModel.TotalCost);
 
-            _dbContext.Projects.Add(project);
-
-            _dbContext.SaveChanges();
-
-            return project.Id;
-        }
-
-        public void CreateComment(CreateCommandInputModel inputModel)
+        public void CreateComment(CreateCommentInputModel inputModel)
         {
             var comment = new ProjectComment(inputModel.Content, inputModel.IdProject, inputModel.IdUser);
 
@@ -41,7 +31,7 @@ namespace DevFreela.Application.Services.Implementations
         {
             var project = _dbContext.Projects.SingleOrDefault(x => x.Id == id);
 
-            project.Cancel();
+            if (project != null) project.Cancel();
 
             _dbContext.SaveChanges();
         }
@@ -50,7 +40,7 @@ namespace DevFreela.Application.Services.Implementations
         {
             var project = _dbContext.Projects.SingleOrDefault(x => x.Id == id);
 
-            project.Finish();
+            if (project != null) project.Finish();
 
             _dbContext.SaveChanges();
         }
@@ -93,16 +83,7 @@ namespace DevFreela.Application.Services.Implementations
         {
             var project = _dbContext.Projects.SingleOrDefault(x => x.Id == id);
 
-            project.Start();
-
-            _dbContext.SaveChanges();
-        }
-
-        public void Update(UpdateProjectInputModel inputModel)
-        {
-            var project = _dbContext.Projects.SingleOrDefault(x => x.Id == inputModel.Id);
-
-            project.Update(inputModel.Title, inputModel.Description, inputModel.TotalCost);
+            project!.Start();
 
             _dbContext.SaveChanges();
         }
