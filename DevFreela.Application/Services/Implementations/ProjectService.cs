@@ -27,15 +27,6 @@ namespace DevFreela.Application.Services.Implementations
             _dbContext.SaveChanges();
         }
 
-        public void Delete(int id)
-        {
-            var project = _dbContext.Projects.SingleOrDefault(x => x.Id == id);
-
-            if (project != null) project.Cancel();
-
-            _dbContext.SaveChanges();
-        }
-
         public void Finish(int id)
         {
             var project = _dbContext.Projects.SingleOrDefault(x => x.Id == id);
