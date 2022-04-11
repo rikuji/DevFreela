@@ -18,24 +18,6 @@ namespace DevFreela.Application.Services.Implementations
             _dbContext = dbContext;
         }
 
-        public void CreateComment(CreateCommentInputModel inputModel)
-        {
-            var comment = new ProjectComment(inputModel.Content, inputModel.IdProject, inputModel.IdUser);
-
-            _dbContext.ProjectComments.Add(comment);
-
-            _dbContext.SaveChanges();
-        }
-
-        public void Finish(int id)
-        {
-            var project = _dbContext.Projects.SingleOrDefault(x => x.Id == id);
-
-            if (project != null) project.Finish();
-
-            _dbContext.SaveChanges();
-        }
-
         public List<ProjectViewModel> GetAll(string query)
         {
             var projects = _dbContext.Projects;
@@ -68,15 +50,6 @@ namespace DevFreela.Application.Services.Implementations
                 project.Freelancer.FullName);
 
             return projectDetailsViewModel;
-        }
-
-        public void Start(int id)
-        {
-            var project = _dbContext.Projects.SingleOrDefault(x => x.Id == id);
-
-            project!.Start();
-
-            _dbContext.SaveChanges();
         }
     }
 }
