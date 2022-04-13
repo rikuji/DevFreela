@@ -1,7 +1,5 @@
 using DevFreela.API.Models;
-using DevFreela.Application.Commands.CreateProjectCommand;
-using DevFreela.Application.Services.Implementations;
-using DevFreela.Application.Services.Interfaces;
+using DevFreela.Application.Commands.CreateProject;
 using DevFreela.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -31,10 +29,6 @@ namespace DevFreela.API
 
             services.AddDbContext<DevFreelaDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("DevFreelaCs")));
-
-            services.AddScoped<IProjectService, ProjectService>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ISkillService, SkillService>();
 
             services.AddMediatR(typeof(CreateProjectCommand));
 
