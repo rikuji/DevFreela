@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DevFreela.Infrastructure.Persistence.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -100,35 +100,34 @@ namespace DevFreela.Infrastructure.Persistence.Migrations
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IdProject = table.Column<int>(type: "int", nullable: false),
                     IdUser = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProjectComments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProjectComments_Projects_IdUser",
-                        column: x => x.IdUser,
+                        name: "FK_ProjectComments_Projects_IdProject",
+                        column: x => x.IdProject,
                         principalTable: "Projects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProjectComments_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_ProjectComments_Users_IdUser",
+                        column: x => x.IdUser,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectComments_IdProject",
+                table: "ProjectComments",
+                column: "IdProject");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProjectComments_IdUser",
                 table: "ProjectComments",
                 column: "IdUser");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProjectComments_UserId",
-                table: "ProjectComments",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_IdClient",

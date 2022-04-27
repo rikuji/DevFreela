@@ -24,7 +24,10 @@ namespace DevFreela.API.Controllers
 
             var user = await _mediator.Send(query);
 
-            return Ok();
+            if (user == null)
+                return NotFound();
+                
+            return Ok(user);
         }
 
         [HttpPost]

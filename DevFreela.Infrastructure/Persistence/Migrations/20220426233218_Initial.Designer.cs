@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DevFreela.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(DevFreelaDbContext))]
-    [Migration("20220226132527_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20220426233218_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -83,14 +83,11 @@ namespace DevFreela.Infrastructure.Persistence.Migrations
                     b.Property<int>("IdUser")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("IdUser");
+                    b.HasIndex("IdProject");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("IdUser");
 
                     b.ToTable("ProjectComments");
                 });
@@ -183,13 +180,15 @@ namespace DevFreela.Infrastructure.Persistence.Migrations
                 {
                     b.HasOne("DevFreela.Core.Entities.Project", "Project")
                         .WithMany("Comments")
-                        .HasForeignKey("IdUser")
+                        .HasForeignKey("IdProject")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DevFreela.Core.Entities.User", "User")
-                        .WithMany("ProjectComments")
-                        .HasForeignKey("UserId");
+                        .WithMany("Comments")
+                        .HasForeignKey("IdUser")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Project");
 
@@ -212,11 +211,11 @@ namespace DevFreela.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("DevFreela.Core.Entities.User", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("FreelanceProjects");
 
                     b.Navigation("OwnedProjects");
-
-                    b.Navigation("ProjectComments");
 
                     b.Navigation("Skills");
                 });
