@@ -1,6 +1,8 @@
 using DevFreela.API.Models;
 using DevFreela.Application.Commands.CreateProject;
+using DevFreela.Core.Repositories;
 using DevFreela.Infrastructure.Persistence;
+using DevFreela.Infrastructure.Persistence.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,6 +33,9 @@ namespace DevFreela.API
                 options => options.UseSqlServer(Configuration.GetConnectionString("DevFreelaCs")));
 
             services.AddMediatR(typeof(CreateProjectCommand));
+
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<ISkillRepository, SkillRepository>();
 
             services.AddSwaggerGen(c =>
             {
