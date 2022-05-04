@@ -26,16 +26,16 @@ namespace DevFreela.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
 
             services.AddDbContext<DevFreelaDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("DevFreelaCs")));
 
-            services.AddMediatR(typeof(CreateProjectCommand));
-
             services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ISkillRepository, SkillRepository>();
+
+            services.AddMediatR(typeof(CreateProjectCommand));
 
             services.AddSwaggerGen(c =>
             {
